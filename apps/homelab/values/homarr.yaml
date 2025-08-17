@@ -15,13 +15,11 @@ homarr:
     className: "traefik"
     annotations:
       kubernetes.io/ingress.class: traefik
-      # No SSL annotations needed - Cloudflare handles SSL termination
     hosts:
-      - host: dashboard.nezdemkovski.cloud
+      - host: nezdemkovski.cloud
         paths:
           - path: /
             pathType: ImplementationSpecific
-    # No TLS section needed - Cloudflare Tunnel handles SSL
 
   persistence:
     enabled: true
@@ -45,11 +43,6 @@ homarr:
         secretKeyRef:
           name: homelab-apps-secrets
           key: homarr-encryption-key
-    # Remove PUID/PGID to avoid chown operations that cause permission issues
-    # - name: PUID
-    #   value: "1000"
-    # - name: PGID
-    #   value: "999"
 
     # Security context - Run as root to avoid permission issues
   podSecurityContext:
