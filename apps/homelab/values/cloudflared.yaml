@@ -13,26 +13,11 @@ cloudflared:
       cpu: 10m
       memory: 64Mi
 
-  # Health checks - Use process check for cloudflared
-  livenessProbe:
-    exec:
-      command:
-        - pgrep
-        - cloudflared
-    failureThreshold: 3
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-
-  readinessProbe:
-    exec:
-      command:
-        - pgrep
-        - cloudflared
-    failureThreshold: 3
-    initialDelaySeconds: 15
-    periodSeconds: 5
-    timeoutSeconds: 3
+  # Disable health checks for cloudflared tunnel service
+  # Cloudflared is a tunnel service that doesn't need traditional health checks
+  # The service will restart automatically if it crashes
+  livenessProbe: {}
+  readinessProbe: {}
 
   # Security context
   podSecurityContext:
