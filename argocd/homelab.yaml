@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: open-webui
+  name: homelab
   namespace: argocd
   labels:
-    app: open-webui
-    environment: prod
+    app: homelab
+    type: umbrella-chart
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -13,25 +13,27 @@ spec:
   source:
     repoURL: https://github.com/nezdemkovski/homelab-helm-charts.git
     targetRevision: HEAD
-    path: apps/open-webui
-    plugin:
-      name: helm-sops
-      env:
-        - name: ARGOCD_ENV_HELM_ARGS
-          value: "-f ../../environments/open-webui-values.yaml -f ../../environments/production-secrets.yaml"
+    path: apps/homelab
+    helm:
+      valueFiles:
+        - ../../environments/production-secrets.yaml
+        - values/cloudflared.yaml
+        - values/open-webui.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: open-webui
+    namespace: homelab
   syncPolicy:
-    # Manual sync for production - require approval
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
       - PruneLast=true
     retry:
-      limit: 3
+      limit: 5
       backoff:
-        duration: 10s
+        duration: 5s
         factor: 2
-        maxDuration: 5m
-  revisionHistoryLimit: 20 # Keep more history for production
+        maxDuration: 3m
+  revisionHistoryLimit: 10

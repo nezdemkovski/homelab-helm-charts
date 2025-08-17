@@ -1,6 +1,6 @@
 # Deployment Guide for Homelab Helm Charts
 
-This repository contains Helm charts for homelab applications, designed to work with ArgoCD for GitOps deployment.
+This repository contains an umbrella Helm chart for homelab applications, designed to work with ArgoCD for GitOps deployment.
 
 ## Repository Structure
 

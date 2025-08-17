@@ -1,0 +1,36 @@
+# Homelab Umbrella Chart Values
+# Enable/disable individual applications
+
+# =============================================================================
+# APPLICATION TOGGLES
+# =============================================================================
+cloudflared:
+  enabled: true
+
+open-webui:
+  enabled: true
+
+# Future apps (examples):
+# grafana:
+#   enabled: true
+# prometheus:
+#   enabled: true
+# nextcloud:
+#   enabled: false
+
+# =============================================================================
+# GLOBAL SETTINGS
+# =============================================================================
+global:
+  # Global domain for all apps
+  domain: nezdemkovski.cloud
+
+  # Global storage class
+  storageClass: local-path
+
+  # Global image pull policy
+  imagePullPolicy: IfNotPresent
+# =============================================================================
+# SHARED RESOURCES
+# =============================================================================
+# You can define shared ConfigMaps, Secrets, etc. here that multiple apps use

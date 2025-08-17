@@ -1,0 +1,9 @@
+dependencies:
+- name: cloudflared
+  repository: file://./charts/cloudflared
+  version: 0.1.0
+- name: open-webui
+  repository: file://./charts/open-webui
+  version: 0.1.0
+digest: sha256:c436520f16f7d0309abafbf9934be2115ebdee61674a93b257dceee82a507d9e
+generated: "2025-08-17T04:12:42.496331+02:00"

@@ -1,0 +1,48 @@
+# Open WebUI specific configuration
+open-webui:
+  image:
+    repository: ghcr.io/open-webui/open-webui
+    tag: "v0.6.22"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 8080
+
+  ingress:
+    enabled: true
+    className: "traefik"
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      # No SSL annotations needed - Cloudflare handles SSL termination
+    hosts:
+      - host: ai.nezdemkovski.cloud
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    # No TLS section needed - Cloudflare Tunnel handles SSL
+
+  persistence:
+    enabled: true
+    size: 10Gi # Larger storage for production
+    storageClass: "local-path" # Use k3s default storage
+    accessModes:
+      - ReadWriteOnce
+
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+    requests:
+      cpu: 100m
+      memory: 512Mi
+
+  # Environment variables for Open WebUI
+  env:
+    - name: WEBUI_NAME
+      value: "AI Assistant"
+    - name: DEFAULT_USER_ROLE
+      value: "user"
+
+  nodeSelector: {}
