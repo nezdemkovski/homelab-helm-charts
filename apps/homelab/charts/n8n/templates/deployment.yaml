@@ -49,12 +49,12 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: homelab-apps-secrets
+                  name: {{ .Release.Name }}-secrets
                   key: n8n-postgresql-user
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: homelab-apps-secrets
+                  name: {{ .Release.Name }}-secrets
                   key: n8n-postgresql-password
       {{- end }}
       containers:
@@ -83,12 +83,12 @@ spec:
             - name: DB_POSTGRESDB_USER
               valueFrom:
                 secretKeyRef:
-                  name: homelab-apps-secrets
+                  name: {{ .Release.Name }}-secrets
                   key: n8n-postgresql-user
             - name: DB_POSTGRESDB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: homelab-apps-secrets
+                  name: {{ .Release.Name }}-secrets
                   key: n8n-postgresql-password
             {{- end }}
             - name: N8N_HOST
