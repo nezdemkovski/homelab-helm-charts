@@ -44,15 +44,24 @@ homarr:
           name: homelab-apps-secrets
           key: homarr-encryption-key
 
-    # Security context - Run as root to avoid permission issues
+    # Security context - Run as non-root for security
   podSecurityContext:
-    fsGroup: 999
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
 
   securityContext:
-    runAsNonRoot: false
-    runAsUser: 0
-    runAsGroup: 0
-    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false # Homarr needs write access for config
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    capabilities:
+      drop:
+        - ALL
 
   # Health checks
   livenessProbe:

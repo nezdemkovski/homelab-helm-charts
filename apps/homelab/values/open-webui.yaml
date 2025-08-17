@@ -45,4 +45,23 @@ open-webui:
     - name: DEFAULT_USER_ROLE
       value: "user"
 
+  # Security context - Run as non-root for security
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+
+  securityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false # Open WebUI needs write access for data
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    capabilities:
+      drop:
+        - ALL
+
   nodeSelector: {}

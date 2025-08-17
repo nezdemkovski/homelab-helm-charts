@@ -41,3 +41,7 @@ global:
 # =============================================================================
 sealedSecrets:
   enabled: true
+
+# Network security policies
+networkPolicy:
+  enabled: true # Set to false if your cluster doesn't support NetworkPolicies

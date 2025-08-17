@@ -1,0 +1,85 @@
+{{- if .Values.networkPolicy.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "homelab.fullname" . }}-default-deny
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "homelab.labels" . | nindent 4 }}
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  # Default deny all - applications must explicitly allow traffic
+  ingress: []
+  egress: []
+---
+{{- if .Values.cloudflared.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "homelab.fullname" . }}-cloudflared
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "homelab.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflared
+  policyTypes:
+  - Egress
+  egress:
+  - {} # Allow all egress for cloudflared tunnel
+{{- end }}
+---
+{{- range $app := list "n8n" "open-webui" "homarr" }}
+{{- if index $.Values $app "enabled" }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "homelab.fullname" $ }}-{{ $app }}-allow
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "homelab.labels" $ | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $app }}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: traefik-system
+    ports:
+    - protocol: TCP
+      port: {{ if eq $app "n8n" }}5678{{ else if eq $app "open-webui" }}8080{{ else }}3000{{ end }}
+  egress:
+  # DNS resolution
+  - to: []
+    ports:
+    - protocol: UDP
+      port: 53
+  # HTTPS outbound (for API calls, updates etc)
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+  {{- if eq $app "n8n" }}
+  # PostgreSQL database connection
+  - to:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: {{ $app }}-postgresql
+    ports:
+    - protocol: TCP
+      port: 5432
+  {{- end }}
+---
+{{- end }}
+{{- end }}
+{{- end }}
