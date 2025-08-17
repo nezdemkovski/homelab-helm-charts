@@ -5,5 +5,11 @@ dependencies:
 - name: open-webui
   repository: file://./charts/open-webui
   version: 0.1.0
-digest: sha256:c436520f16f7d0309abafbf9934be2115ebdee61674a93b257dceee82a507d9e
-generated: "2025-08-17T04:12:42.496331+02:00"
+- name: homarr
+  repository: file://./charts/homarr
+  version: 0.1.0
+- name: n8n
+  repository: file://./charts/n8n
+  version: 0.1.0
+digest: sha256:68718ac692dba433b34ad4eac2fd33897a4b01d0a2577c7376d09178808572b9
+generated: "2025-08-17T14:45:49.544985+02:00"

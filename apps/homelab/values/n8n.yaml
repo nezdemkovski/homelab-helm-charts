@@ -15,13 +15,11 @@ n8n:
     className: "traefik"
     annotations:
       kubernetes.io/ingress.class: traefik
-      # No SSL annotations needed - Cloudflare handles SSL termination
     hosts:
       - host: n8n.nezdemkovski.cloud
         paths:
           - path: /
             pathType: ImplementationSpecific
-    # No TLS section needed - Cloudflare Tunnel handles SSL
 
   persistence:
     enabled: true
