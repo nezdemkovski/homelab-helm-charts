@@ -50,17 +50,21 @@ homarr:
     - name: PGID
       value: "999"
 
-  # Security context
+    # Security context - Allow container to run as root for initial setup
   podSecurityContext:
     fsGroup: 999
 
   securityContext:
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 999
+    runAsNonRoot: false
+    runAsUser: 0
+    runAsGroup: 0
     capabilities:
       drop:
       - ALL
+      add:
+      - CHOWN
+      - SETUID
+      - SETGID
     readOnlyRootFilesystem: false
 
   # Health checks
