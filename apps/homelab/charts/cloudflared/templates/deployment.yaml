@@ -47,8 +47,8 @@ spec:
             - name: TUNNEL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "cloudflared.fullname" . }}-token
-                  key: token
+                  name: homelab-secrets
+                  key: cloudflared-token
           ports:
             - name: metrics
               containerPort: 2000

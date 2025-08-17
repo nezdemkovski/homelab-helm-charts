@@ -16,7 +16,6 @@ spec:
     path: apps/homelab
     helm:
       valueFiles:
-        - ../../environments/production-secrets.yaml
         - values/cloudflared.yaml
         - values/open-webui.yaml
   destination:

@@ -33,4 +33,5 @@ global:
 # =============================================================================
 # SHARED RESOURCES
 # =============================================================================
-# You can define shared ConfigMaps, Secrets, etc. here that multiple apps use
+sealedSecrets:
+  enabled: true
