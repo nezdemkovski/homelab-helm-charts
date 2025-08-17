@@ -19,6 +19,7 @@ spec:
         - values/cloudflared.yaml
         - values/open-webui.yaml
         - values/homarr.yaml
+        - values/n8n.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: homelab-apps

@@ -13,6 +13,9 @@ open-webui:
 homarr:
   enabled: true
 
+n8n:
+  enabled: true
+
 # Future apps (examples):
 # grafana:
 #   enabled: true

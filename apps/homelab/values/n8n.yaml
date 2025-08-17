@@ -1,0 +1,117 @@
+# n8n specific configuration
+n8n:
+  image:
+    repository: n8nio/n8n
+    tag: "1.107.2"
+    pullPolicy: Always
+
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 5678
+
+  ingress:
+    enabled: true
+    className: "traefik"
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      # No SSL annotations needed - Cloudflare handles SSL termination
+    hosts:
+      - host: n8n.nezdemkovski.cloud
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    # No TLS section needed - Cloudflare Tunnel handles SSL
+
+  persistence:
+    enabled: true
+    size: 2Gi # Storage for n8n workflows and data
+    storageClass: "longhorn"
+    accessModes:
+      - ReadWriteOnce
+
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+
+  # PostgreSQL configuration
+  postgresql:
+    enabled: true
+    image:
+      repository: postgres
+      tag: "17"
+      pullPolicy: Always
+
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+
+    persistence:
+      enabled: true
+      storageClass: "longhorn"
+      accessModes:
+        - ReadWriteOnce
+      size: 5Gi
+
+    auth:
+      database: "n8n"
+      # Username and password will be in sealed secret
+
+  # Environment variables for n8n
+  env:
+    - name: NODE_ENV
+      value: "production"
+    - name: N8N_PORT
+      value: "5678"
+    - name: N8N_PROTOCOL
+      value: "https"
+    - name: GENERIC_TIMEZONE
+      value: "Europe/Prague"
+    - name: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
+      value: "true"
+    - name: DB_TYPE
+      value: "postgresdb"
+    - name: DB_POSTGRESDB_SCHEMA
+      value: "public"
+
+  # Security context
+  podSecurityContext:
+    fsGroup: 1000
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+
+  # Health checks
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 5
+
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+
+  nodeSelector: {}

@@ -18,6 +18,10 @@ dependencies:
     version: "0.1.0"
     repository: "file://./charts/homarr"
     condition: homarr.enabled
+  - name: n8n
+    version: "0.1.0"
+    repository: "file://./charts/n8n"
+    condition: n8n.enabled
 
 home: https://github.com/nezdemkovski/homelab-helm-charts
 sources:
