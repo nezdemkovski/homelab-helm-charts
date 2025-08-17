@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: homelab-applicationset
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/nezdemkovski/homelab-helm-charts.git
+      revision: HEAD
+      files:
+      - path: "argocd/homelab-apps.yaml"
+  template:
+    metadata:
+      name: homelab-apps
+      namespace: argocd
+      labels:
+        app: homelab-apps
+        type: umbrella-chart
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/nezdemkovski/homelab-helm-charts.git
+        targetRevision: HEAD
+        path: apps/homelab
+        helm:
+          valueFiles:
+            - values/cloudflared.yaml
+            - values/open-webui.yaml
+            - values/homarr.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: homelab-apps
+      ignoreDifferences:
+        - group: ""
+          kind: PersistentVolumeClaim
+          jsonPointers:
+            - /spec/volumeName
+            - /metadata/annotations
+            - /status
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+      revisionHistoryLimit: 10
