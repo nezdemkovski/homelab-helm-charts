@@ -64,20 +64,24 @@ resources:
 
 # Health checks
 livenessProbe:
-  httpGet:
-    path: /ready
-    port: 2000
-  failureThreshold: 1
-  initialDelaySeconds: 10
-  periodSeconds: 10
+  exec:
+    command:
+      - /bin/sh
+      - -c
+      - "pgrep cloudflared"
+  failureThreshold: 3
+  initialDelaySeconds: 30
+  periodSeconds: 30
 
 readinessProbe:
-  httpGet:
-    path: /ready
-    port: 2000
-  failureThreshold: 1
-  initialDelaySeconds: 5
-  periodSeconds: 5
+  exec:
+    command:
+      - /bin/sh
+      - -c
+      - "pgrep cloudflared"
+  failureThreshold: 3
+  initialDelaySeconds: 10
+  periodSeconds: 10
 
 # Node selector, tolerations, and affinity
 nodeSelector: {}
