@@ -25,8 +25,8 @@ open-webui:
 
   persistence:
     enabled: true
-    size: 10Gi # Larger storage for production
-    storageClass: "local-path" # Use k3s default storage
+    size: 10Gi
+    storageClass: "longhorn"
     accessModes:
       - ReadWriteOnce
 
