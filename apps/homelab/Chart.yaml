@@ -14,6 +14,10 @@ dependencies:
     version: "0.1.0"
     repository: "file://./charts/open-webui"
     condition: open-webui.enabled
+  - name: homarr
+    version: "0.1.0"
+    repository: "file://./charts/homarr"
+    condition: homarr.enabled
 
 home: https://github.com/nezdemkovski/homelab-helm-charts
 sources:

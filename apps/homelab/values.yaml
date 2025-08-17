@@ -10,6 +10,9 @@ cloudflared:
 open-webui:
   enabled: true
 
+homarr:
+  enabled: true
+
 # Future apps (examples):
 # grafana:
 #   enabled: true

@@ -1,0 +1,85 @@
+# Homarr specific configuration
+homarr:
+  image:
+    repository: ghcr.io/homarr-labs/homarr
+    tag: "v1.33.0"
+    pullPolicy: Always
+
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 7575
+
+  ingress:
+    enabled: true
+    className: "traefik"
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      # No SSL annotations needed - Cloudflare handles SSL termination
+    hosts:
+      - host: dashboard.nezdemkovski.cloud
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    # No TLS section needed - Cloudflare Tunnel handles SSL
+
+  persistence:
+    enabled: true
+    size: 2Gi # Storage for Homarr configuration and data
+    storageClass: "local-path" # Use k3s default storage
+    accessModes:
+      - ReadWriteOnce
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+  # Environment variables for Homarr
+  env:
+    - name: SECRET_ENCRYPTION_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homelab-apps-secrets
+          key: homarr-encryption-key
+    - name: PUID
+      value: "1000"
+    - name: PGID
+      value: "999"
+
+  # Security context
+  podSecurityContext:
+    fsGroup: 999
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 999
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: false
+
+  # Health checks
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+
+  nodeSelector: {}
