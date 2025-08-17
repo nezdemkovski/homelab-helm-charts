@@ -13,22 +13,24 @@ cloudflared:
       cpu: 10m
       memory: 64Mi
 
-  # Health checks
+  # Health checks - Use process check for cloudflared
   livenessProbe:
-    httpGet:
-      path: /ready
-      port: 2000
+    exec:
+      command:
+        - pgrep
+        - cloudflared
     failureThreshold: 3
-    initialDelaySeconds: 10
+    initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
 
   readinessProbe:
-    httpGet:
-      path: /ready
-      port: 2000
+    exec:
+      command:
+        - pgrep
+        - cloudflared
     failureThreshold: 3
-    initialDelaySeconds: 5
+    initialDelaySeconds: 15
     periodSeconds: 5
     timeoutSeconds: 3
 
