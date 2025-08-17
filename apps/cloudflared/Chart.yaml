@@ -1,0 +1,17 @@
+apiVersion: v2
+name: cloudflared
+description: Cloudflare Tunnel for secure ingress to Kubernetes cluster
+type: application
+version: 0.1.0
+appVersion: "2025.8.0"
+home: https://github.com/cloudflare/cloudflared
+sources:
+  - https://github.com/cloudflare/cloudflared
+keywords:
+  - cloudflare
+  - tunnel
+  - ingress
+  - security
+maintainers:
+  - name: cloudflare
+    url: https://github.com/cloudflare

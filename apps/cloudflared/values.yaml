@@ -1,0 +1,89 @@
+# Default values for cloudflared
+# This is a YAML-formatted file.
+
+# Cloudflare Tunnel configuration
+tunnel:
+  # Tunnel token from Cloudflare Dashboard
+  # This should be set in environment-specific values
+  token: ""
+
+  # Tunnel configuration
+  config:
+    # Metrics endpoint for health checks
+    metrics: "0.0.0.0:2000"
+    # Disable auto-updates (managed by Kubernetes)
+    no-autoupdate: true
+
+# Image configuration
+image:
+  repository: cloudflare/cloudflared
+  tag: "2025.8.0"
+  pullPolicy: IfNotPresent
+
+# Replica count
+replicaCount: 1
+
+# Service account
+serviceAccount:
+  create: true
+  automount: false
+  annotations: {}
+  name: ""
+
+# Pod annotations and labels
+podAnnotations: {}
+podLabels: {}
+
+# Security context
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  fsGroup: 65532
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  capabilities:
+    drop:
+      - ALL
+
+# Resources
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 10m
+    memory: 64Mi
+
+# Health checks
+livenessProbe:
+  httpGet:
+    path: /ready
+    port: 2000
+  failureThreshold: 1
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 2000
+  failureThreshold: 1
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+# Node selector, tolerations, and affinity
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Network policy (optional)
+networkPolicy:
+  enabled: false

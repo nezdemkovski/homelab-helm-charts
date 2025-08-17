@@ -1,0 +1,15 @@
+1. Cloudflare Tunnel has been deployed successfully!
+
+2. Check the tunnel status:
+   kubectl get pods -n {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "cloudflared.name" . }},app.kubernetes.io/instance={{ .Release.Name }}"
+
+3. View tunnel logs:
+   kubectl logs -f deployment/{{ include "cloudflared.fullname" . }} -n {{ .Release.Namespace }}
+
+4. Check tunnel health:
+   kubectl port-forward deployment/{{ include "cloudflared.fullname" . }} 2000:2000 -n {{ .Release.Namespace }}
+   curl http://localhost:2000/ready
+
+5. Your applications should now be accessible through Cloudflare Tunnel at your configured domain.
+
+For more information, visit: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/

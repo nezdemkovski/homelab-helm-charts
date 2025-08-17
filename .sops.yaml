@@ -1,0 +1,10 @@
+# SOPS configuration for encrypting secrets
+creation_rules:
+  # Encrypt production secrets file
+  - path_regex: environments/production-secrets\.yaml$
+    age: >-
+      age18y2mcmewrpghpurx8dt38h92pantdtxaczp9fw0dl85vrrmnx9jsm4kxda
+
+  # Don't encrypt regular values files
+  - path_regex: .*values\.yaml$
+    # This rule ensures regular values files are not encrypted

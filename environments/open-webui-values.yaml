@@ -1,0 +1,104 @@
+# Production environment values for Open WebUI
+# Namespace: open-webui-prod
+
+# Basic configuration
+replicaCount: 2 # Higher availability for production
+
+# Image configuration
+image:
+  repository: ghcr.io/open-webui/open-webui
+  tag: "v0.6.22"
+  pullPolicy: IfNotPresent
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+# Ingress configuration for production
+ingress:
+  enabled: true
+  className: "traefik"
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    # No SSL annotations needed - Cloudflare handles SSL termination
+  hosts:
+    - host: ai.nezdemkovski.cloud
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  # No TLS section needed - Cloudflare Tunnel handles SSL
+
+# Persistence configuration
+persistence:
+  enabled: true
+  size: 10Gi # Larger storage for production
+  storageClass: "local-path" # Use k3s default storage
+  accessModes:
+    - ReadWriteOnce
+
+# Environment variables for production
+env:
+  - name: OLLAMA_BASE_URL
+    value: "http://ollama.ollama:11434"
+  - name: WEBUI_AUTH
+    value: "true" # Enable authentication
+  - name: ENABLE_SIGNUP
+    value: "false" # Disable public signup
+  - name: DEFAULT_USER_ROLE
+    value: "pending" # Require admin approval
+
+# Resource limits for production
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+# High availability configuration
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+
+# Production-grade health checks
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# Node selector for production nodes
+nodeSelector: {}
+
+# Tolerations and affinity for better distribution
+tolerations: []
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - open-webui
+          topologyKey: kubernetes.io/hostname

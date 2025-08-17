@@ -1,0 +1,56 @@
+# Example configuration for Open WebUI
+# Copy this file to values-custom.yaml and modify as needed
+
+# Enable ingress for external access
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: open-webui.example.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  # tls:
+  #   - secretName: open-webui-tls
+  #     hosts:
+  #       - open-webui.example.com
+
+# Configure persistence for Open WebUI data
+persistence:
+  enabled: true
+  size: 5Gi
+  storageClass: "" # Use default storage class
+  accessModes:
+    - ReadWriteOnce
+
+# Environment variables for Open WebUI
+env:
+  # Connect to Ollama instance
+  - name: OLLAMA_BASE_URL
+    value: "http://ollama:11434"
+
+  # Optional: OpenAI API configuration
+  # - name: OPENAI_API_KEY
+  #   value: "your-openai-api-key"
+
+  # Optional: Enable authentication
+  # - name: WEBUI_AUTH
+  #   value: "true"
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
