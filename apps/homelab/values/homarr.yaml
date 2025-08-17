@@ -45,28 +45,20 @@ homarr:
         secretKeyRef:
           name: homelab-apps-secrets
           key: homarr-encryption-key
-    - name: PUID
-      value: "1000"
-    - name: PGID
-      value: "999"
+    # Remove PUID/PGID to avoid chown operations that cause permission issues
+    # - name: PUID
+    #   value: "1000"
+    # - name: PGID
+    #   value: "999"
 
-      # Security context - Allow container to run as root initially, then drop to user
+        # Security context - Run as root to avoid permission issues
   podSecurityContext:
     fsGroup: 999
-    runAsUser: 0
-    runAsGroup: 0
 
   securityContext:
     runAsNonRoot: false
-    allowPrivilegeEscalation: true
-    capabilities:
-      drop:
-      - ALL
-      add:
-      - CHOWN
-      - SETUID
-      - SETGID
-      - DAC_OVERRIDE
+    runAsUser: 0
+    runAsGroup: 0
     readOnlyRootFilesystem: false
 
   # Health checks
