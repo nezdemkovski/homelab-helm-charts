@@ -47,7 +47,7 @@ spec:
             - name: TUNNEL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: homelab-secrets
+                  name: {{ .Release.Name }}-secrets
                   key: cloudflared-token
           ports:
             - name: metrics
