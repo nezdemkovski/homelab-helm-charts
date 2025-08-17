@@ -45,21 +45,20 @@ open-webui:
     - name: DEFAULT_USER_ROLE
       value: "user"
 
-  # Security context - Run as non-root for security
+  # Security context - Temporary root access for file permissions
+  # Note: Open WebUI requires specific file permissions for secret key generation
   podSecurityContext:
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
-    fsGroup: 1000
-    seccompProfile:
-      type: RuntimeDefault
+    runAsNonRoot: false # Required for Open WebUI file operations
+    runAsUser: 0
+    runAsGroup: 0
+    fsGroup: 0
 
   securityContext:
     allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: false # Open WebUI needs write access for data
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
+    readOnlyRootFilesystem: false # Open WebUI needs write access for config and data
+    runAsNonRoot: false # Required for Open WebUI startup
+    runAsUser: 0
+    runAsGroup: 0
     capabilities:
       drop:
         - ALL
