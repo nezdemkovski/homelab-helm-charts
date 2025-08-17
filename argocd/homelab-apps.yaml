@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: homelab
+  name: homelab-apps
   namespace: argocd
   labels:
-    app: homelab
+    app: homelab-apps
     type: umbrella-chart
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -20,7 +20,7 @@ spec:
         - values/open-webui.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: homelab
+    namespace: homelab-apps
   syncPolicy:
     automated:
       prune: true
