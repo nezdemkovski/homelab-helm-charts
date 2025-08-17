@@ -14,10 +14,11 @@ spec:
     repoURL: https://github.com/nezdemkovski/homelab-helm-charts.git
     targetRevision: HEAD
     path: apps/cloudflared
-    helm:
-      valueFiles:
-        - ../../environments/cloudflared-values.yaml
-        - ../../environments/production-secrets.yaml
+    plugin:
+      name: helm-sops
+      env:
+        - name: ARGOCD_ENV_HELM_ARGS
+          value: "-f ../../environments/cloudflared-values.yaml -f ../../environments/production-secrets.yaml"
   destination:
     server: https://kubernetes.default.svc
     namespace: cloudflare-tunnel
