@@ -5,11 +5,11 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - git:
-      repoURL: https://github.com/nezdemkovski/homelab-helm-charts.git
-      revision: HEAD
-      files:
-      - path: "argocd/homelab-apps.yaml"
+    - git:
+        repoURL: https://github.com/nezdemkovski/homelab-helm-charts.git
+        revision: HEAD
+        files:
+          - path: "argocd/homelab-apps.yaml"
   template:
     metadata:
       name: homelab-apps

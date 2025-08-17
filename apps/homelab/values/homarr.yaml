@@ -26,7 +26,7 @@ homarr:
   persistence:
     enabled: true
     size: 2Gi # Storage for Homarr configuration and data
-    storageClass: "local-path" # Use k3s default storage
+    storageClass: "longhorn"
     accessModes:
       - ReadWriteOnce
 
@@ -51,7 +51,7 @@ homarr:
     # - name: PGID
     #   value: "999"
 
-        # Security context - Run as root to avoid permission issues
+    # Security context - Run as root to avoid permission issues
   podSecurityContext:
     fsGroup: 999
 
