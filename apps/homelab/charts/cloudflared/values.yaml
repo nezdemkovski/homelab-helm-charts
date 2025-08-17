@@ -62,27 +62,6 @@ resources:
     cpu: 10m
     memory: 64Mi
 
-# Health checks
-livenessProbe:
-  exec:
-    command:
-      - /bin/sh
-      - -c
-      - "pgrep cloudflared"
-  failureThreshold: 3
-  initialDelaySeconds: 30
-  periodSeconds: 30
-
-readinessProbe:
-  exec:
-    command:
-      - /bin/sh
-      - -c
-      - "pgrep cloudflared"
-  failureThreshold: 3
-  initialDelaySeconds: 10
-  periodSeconds: 10
-
 # Node selector, tolerations, and affinity
 nodeSelector: {}
 tolerations: []
