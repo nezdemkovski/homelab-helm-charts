@@ -21,6 +21,13 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: homelab-apps
+  ignoreDifferences:
+    - group: ""
+      kind: PersistentVolumeClaim
+      jsonPointers:
+        - /spec/volumeName
+        - /metadata/annotations
+        - /status
   syncPolicy:
     automated:
       prune: true
