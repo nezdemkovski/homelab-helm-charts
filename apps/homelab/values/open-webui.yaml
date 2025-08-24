@@ -1,34 +1,19 @@
-# Open WebUI specific configuration
+# Open WebUI configuration for official Helm chart
+# Reference: https://github.com/open-webui/helm-charts
 open-webui:
-  image:
-    repository: ghcr.io/open-webui/open-webui
-    tag: "v0.6.22"
-    pullPolicy: IfNotPresent
+  enabled: true
 
-  service:
-    type: ClusterIP
-    port: 80
-    targetPort: 8080
+  ollama:
+    enabled: false
 
-  ingress:
-    enabled: true
-    className: "traefik"
-    annotations:
-      kubernetes.io/ingress.class: traefik
-      # No SSL annotations needed - Cloudflare handles SSL termination
-    hosts:
-      - host: ai.nezdemkovski.cloud
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-    # No TLS section needed - Cloudflare Tunnel handles SSL
+  pipelines:
+    enabled: false
 
-  persistence:
-    enabled: true
-    size: 10Gi
-    storageClass: "longhorn"
-    accessModes:
-      - ReadWriteOnce
+  tika:
+    enabled: false
+
+  websocket:
+    enabled: false
 
   resources:
     limits:
@@ -38,13 +23,6 @@ open-webui:
       cpu: 100m
       memory: 512Mi
 
-  # Environment variables for Open WebUI
-  env:
-    - name: WEBUI_NAME
-      value: "AI Assistant"
-    - name: DEFAULT_USER_ROLE
-      value: "user"
-
   podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
@@ -53,7 +31,7 @@ open-webui:
     seccompProfile:
       type: RuntimeDefault
 
-  securityContext:
+  containerSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     runAsGroup: 1000
@@ -64,5 +42,36 @@ open-webui:
         - ALL
     seccompProfile:
       type: RuntimeDefault
+
+  persistence:
+    enabled: true
+    storageClass: "longhorn"
+    size: 2Gi
+    accessModes:
+      - ReadWriteOnce
+
+  service:
+    type: ClusterIP
+
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    hosts:
+      - host: ai.nezdemkovski.cloud
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+  extraEnvVars:
+    - name: WEBUI_NAME
+      value: "AI Assistant"
+    - name: DEFAULT_USER_ROLE
+      value: "user"
+    - name: ENABLE_SIGNUP
+      value: "true"
+    - name: WEBUI_AUTH
+      value: "true"
 
   nodeSelector: {}

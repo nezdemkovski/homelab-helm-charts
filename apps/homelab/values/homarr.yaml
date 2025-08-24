@@ -1,4 +1,4 @@
-# Homarr configuration for official Helm chart v5.8.0
+# Homarr configuration for official Helm chart
 # Reference: https://homarr.dev/docs/getting-started/installation/helm
 homarr:
   enabled: true

@@ -3,13 +3,13 @@ dependencies:
   repository: file://./charts/cloudflared
   version: 0.1.0
 - name: open-webui
-  repository: file://./charts/open-webui
-  version: 0.1.0
+  repository: https://helm.openwebui.com
+  version: 7.6.0
 - name: homarr
   repository: oci://ghcr.io/homarr-labs/charts
   version: 5.8.0
 - name: n8n
   repository: file://./charts/n8n
   version: 0.1.0
-digest: sha256:00170632645f3354d0654f7207493cc7269d680dadb4cc93524d9ac01fff8859
-generated: "2025-08-25T00:04:16.334131+02:00"
+digest: sha256:8ab16b9a88a223792b4626e6f97d8068a45fd92270ab29da3c76f7677cfe8265
+generated: "2025-08-25T00:28:29.833353+02:00"

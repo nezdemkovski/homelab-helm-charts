@@ -11,8 +11,8 @@ dependencies:
     repository: "file://./charts/cloudflared"
     condition: cloudflared.enabled
   - name: open-webui
-    version: "0.1.0"
-    repository: "file://./charts/open-webui"
+    version: "7.6.0"
+    repository: "https://helm.openwebui.com"
     condition: open-webui.enabled
   - name: homarr
     version: "5.8.0"
