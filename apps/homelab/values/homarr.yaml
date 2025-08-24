@@ -3,6 +3,8 @@
 homarr:
   enabled: true
 
+  fullnameOverride: "homarr"
+
   replicaCount: 1
 
   resources:

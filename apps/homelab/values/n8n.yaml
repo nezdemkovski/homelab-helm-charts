@@ -1,5 +1,6 @@
-# n8n specific configuration
 n8n:
+  fullnameOverride: "n8n"
+
   image:
     repository: n8nio/n8n
     tag: "1.107.2"
@@ -23,7 +24,7 @@ n8n:
 
   persistence:
     enabled: true
-    size: 2Gi # Storage for n8n workflows and data
+    size: 2Gi
     storageClass: "longhorn"
     accessModes:
       - ReadWriteOnce
@@ -36,7 +37,6 @@ n8n:
       cpu: 200m
       memory: 512Mi
 
-  # PostgreSQL configuration
   postgresql:
     enabled: true
     image:
@@ -61,7 +61,6 @@ n8n:
 
     auth:
       database: "n8n"
-      # Username and password will be in sealed secret
 
     podSecurityContext:
       runAsNonRoot: true
@@ -83,7 +82,6 @@ n8n:
       seccompProfile:
         type: RuntimeDefault
 
-  # Environment variables for n8n
   env:
     - name: NODE_ENV
       value: "production"
@@ -120,7 +118,6 @@ n8n:
     seccompProfile:
       type: RuntimeDefault
 
-  # Health checks
   livenessProbe:
     httpGet:
       path: /healthz
