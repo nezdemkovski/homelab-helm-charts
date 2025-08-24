@@ -10,7 +10,7 @@ image:
   repository: ghcr.io/homarr-labs/homarr
   # This sets the pull policy for images.
   pullPolicy: Always
-  tag: "v1.33.0"
+  tag: "v1.34.0"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
