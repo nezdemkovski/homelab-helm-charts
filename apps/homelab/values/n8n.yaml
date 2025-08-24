@@ -63,6 +63,26 @@ n8n:
       database: "n8n"
       # Username and password will be in sealed secret
 
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 999
+      runAsGroup: 999
+      fsGroup: 999
+      seccompProfile:
+        type: RuntimeDefault
+
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 999
+      runAsGroup: 999
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: false
+      capabilities:
+        drop:
+          - ALL
+      seccompProfile:
+        type: RuntimeDefault
+
   # Environment variables for n8n
   env:
     - name: NODE_ENV
@@ -80,18 +100,25 @@ n8n:
     - name: DB_POSTGRESDB_SCHEMA
       value: "public"
 
-  # Security context
   podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
     fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
 
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000
     runAsGroup: 1000
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
     capabilities:
       drop:
         - ALL
-    readOnlyRootFilesystem: false
+    seccompProfile:
+      type: RuntimeDefault
 
   # Health checks
   livenessProbe:
