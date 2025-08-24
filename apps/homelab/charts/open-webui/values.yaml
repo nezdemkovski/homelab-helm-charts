@@ -10,7 +10,7 @@ image:
   repository: ghcr.io/open-webui/open-webui
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
-  tag: "v0.6.22"
+  tag: "v0.6.25"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
