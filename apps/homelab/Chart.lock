@@ -6,10 +6,10 @@ dependencies:
   repository: file://./charts/open-webui
   version: 0.1.0
 - name: homarr
-  repository: file://./charts/homarr
-  version: 0.1.0
+  repository: oci://ghcr.io/homarr-labs/charts
+  version: 5.8.0
 - name: n8n
   repository: file://./charts/n8n
   version: 0.1.0
-digest: sha256:68718ac692dba433b34ad4eac2fd33897a4b01d0a2577c7376d09178808572b9
-generated: "2025-08-17T14:45:49.544985+02:00"
+digest: sha256:00170632645f3354d0654f7207493cc7269d680dadb4cc93524d9ac01fff8859
+generated: "2025-08-25T00:04:16.334131+02:00"

@@ -1,32 +1,9 @@
-# Homarr specific configuration
+# Homarr configuration for official Helm chart v5.8.0
+# Reference: https://homarr.dev/docs/getting-started/installation/helm
 homarr:
-  image:
-    repository: ghcr.io/homarr-labs/homarr
-    tag: "v1.33.0"
-    pullPolicy: Always
+  enabled: true
 
-  service:
-    type: ClusterIP
-    port: 80
-    targetPort: 3000
-
-  ingress:
-    enabled: true
-    className: "traefik"
-    annotations:
-      kubernetes.io/ingress.class: traefik
-    hosts:
-      - host: nezdemkovski.cloud
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-
-  persistence:
-    enabled: true
-    size: 2Gi # Storage for Homarr configuration and data
-    storageClass: "longhorn"
-    accessModes:
-      - ReadWriteOnce
+  replicaCount: 1
 
   resources:
     limits:
@@ -35,14 +12,6 @@ homarr:
     requests:
       cpu: 200m
       memory: 512Mi
-
-  # Environment variables for Homarr
-  env:
-    - name: SECRET_ENCRYPTION_KEY
-      valueFrom:
-        secretKeyRef:
-          name: homelab-apps-secrets
-          key: homarr-encryption-key
 
   podSecurityContext:
     runAsNonRoot: true
@@ -64,23 +33,39 @@ homarr:
     seccompProfile:
       type: RuntimeDefault
 
-  # Health checks
-  livenessProbe:
-    httpGet:
-      path: /
-      port: http
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 3
+  env:
+    TZ: "Europe/Prague"
+    AUTH_PROVIDERS: "credentials"
+    PORT: "7575"
 
-  readinessProbe:
-    httpGet:
-      path: /
-      port: http
-    initialDelaySeconds: 5
-    periodSeconds: 5
-    timeoutSeconds: 3
-    failureThreshold: 3
+  envSecrets:
+    dbCredentials:
+      existingSecret: "homelab-apps-secrets"
+      dbEncryptionKey: "homarr-encryption-key"
+
+  persistence:
+    homarrDatabase:
+      enabled: true
+      storageClassName: "longhorn"
+      size: "2Gi"
+
+  database:
+    externalDatabaseEnabled: false
+    migrationEnabled: true
+
+  service:
+    enabled: true
+    type: ClusterIP
+
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    hosts:
+      - host: nezdemkovski.cloud
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
 
   nodeSelector: {}
