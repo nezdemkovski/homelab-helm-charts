@@ -1,0 +1,74 @@
+# Uptime Kuma configuration
+# Reference: https://artifacthub.io/packages/helm/helm-l3st86/uptimekuma
+uptimekuma:
+  enabled: true
+
+  fullnameOverride: "uptimekuma"
+
+  replicaCount: 1
+
+  image:
+    repository: louislam/uptime-kuma
+    tag: "1.23.13"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
+
+  env:
+    TZ: "Europe/Prague"
+    UPTIME_KUMA_PORT: "3001"
+
+  persistence:
+    enabled: true
+    storageClassName: "longhorn"
+    size: "2Gi"
+    accessMode: ReadWriteOnce
+
+  service:
+    enabled: true
+    type: ClusterIP
+    port: 3001
+    targetPort: 3001
+
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    hosts:
+      - host: uptime.nezdemkovski.cloud
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

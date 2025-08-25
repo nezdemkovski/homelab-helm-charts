@@ -11,5 +11,8 @@ dependencies:
 - name: n8n
   repository: file://./charts/n8n
   version: 0.1.0
-digest: sha256:8ab16b9a88a223792b4626e6f97d8068a45fd92270ab29da3c76f7677cfe8265
-generated: "2025-08-25T00:28:29.833353+02:00"
+- name: uptimekuma
+  repository: https://charts.l3st-tech.com/
+  version: 0.1.10
+digest: sha256:822dcdc9b054e12e335cb56c54512b6aaaac4ee86724e66306909004ae3ff0b9
+generated: "2025-08-25T02:07:11.931182+02:00"
