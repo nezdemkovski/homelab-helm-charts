@@ -3,14 +3,14 @@
 uptimekuma:
   enabled: true
 
-  fullnameOverride: "uptimekuma"
-
   replicaCount: 1
 
   image:
     repository: louislam/uptime-kuma
     tag: "1.23.13"
     pullPolicy: IfNotPresent
+
+  fullnameOverride: "uptimekuma"
 
   resources:
     limits:
@@ -20,45 +20,24 @@ uptimekuma:
       cpu: 100m
       memory: 256Mi
 
-  podSecurityContext:
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
-    fsGroup: 1000
-    seccompProfile:
-      type: RuntimeDefault
+  podSecurityContext: {}
 
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
-    allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: false
-    capabilities:
-      drop:
-        - ALL
-    seccompProfile:
-      type: RuntimeDefault
-
-  env:
-    TZ: "Europe/Prague"
-    UPTIME_KUMA_PORT: "3001"
+  securityContext: {}
 
   persistence:
     enabled: true
+    name: "uptimekuma-data"
     storageClassName: "longhorn"
     size: "2Gi"
-    accessMode: ReadWriteOnce
+    accessMode: "ReadWriteOnce"
 
   service:
-    enabled: true
     type: ClusterIP
     port: 3001
-    targetPort: 3001
 
   ingress:
     enabled: true
-    ingressClassName: "traefik"
+    className: "traefik"
     annotations:
       kubernetes.io/ingress.class: traefik
     hosts:
