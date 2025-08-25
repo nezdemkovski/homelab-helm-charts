@@ -16,6 +16,9 @@ homarr:
 n8n:
   enabled: true
 
+uptimekuma:
+  enabled: true
+
 # Future apps (examples):
 # grafana:
 #   enabled: true

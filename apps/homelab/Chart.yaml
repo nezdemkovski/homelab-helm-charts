@@ -22,6 +22,10 @@ dependencies:
     version: "0.1.0"
     repository: "file://./charts/n8n"
     condition: n8n.enabled
+  - name: uptimekuma
+    version: "0.1.10"
+    repository: "https://charts.l3st-tech.com/"
+    condition: uptimekuma.enabled
 
 home: https://github.com/nezdemkovski/homelab-helm-charts
 sources:

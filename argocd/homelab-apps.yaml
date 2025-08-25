@@ -20,6 +20,7 @@ spec:
         - values/open-webui.yaml
         - values/homarr.yaml
         - values/n8n.yaml
+        - values/uptimekuma.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: homelab-apps
