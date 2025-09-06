@@ -4,7 +4,7 @@ dependencies:
   version: 0.1.0
 - name: open-webui
   repository: https://helm.openwebui.com
-  version: 7.6.0
+  version: 8.1.0
 - name: homarr
   repository: oci://ghcr.io/homarr-labs/charts
   version: 5.8.0
@@ -14,5 +14,5 @@ dependencies:
 - name: uptimekuma
   repository: https://charts.l3st-tech.com/
   version: 0.1.10
-digest: sha256:822dcdc9b054e12e335cb56c54512b6aaaac4ee86724e66306909004ae3ff0b9
-generated: "2025-08-25T02:07:11.931182+02:00"
+digest: sha256:d446c42c8cb06d7a29791551fa787d61335b20ec2b2b5b85c0e999b0952c3b03
+generated: "2025-09-06T16:13:42.557072293Z"
