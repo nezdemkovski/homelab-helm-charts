@@ -15,7 +15,7 @@ dependencies:
     repository: "https://helm.openwebui.com"
     condition: open-webui.enabled
   - name: homarr
-    version: "5.8.0"
+    version: "5.12.0"
     repository: "oci://ghcr.io/homarr-labs/charts"
     condition: homarr.enabled
   - name: n8n
