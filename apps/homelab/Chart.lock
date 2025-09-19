@@ -7,12 +7,12 @@ dependencies:
   version: 7.6.0
 - name: homarr
   repository: oci://ghcr.io/homarr-labs/charts
-  version: 5.8.0
+  version: 5.12.0
 - name: n8n
   repository: file://./charts/n8n
   version: 0.1.0
 - name: uptimekuma
   repository: https://charts.l3st-tech.com/
   version: 0.1.10
-digest: sha256:822dcdc9b054e12e335cb56c54512b6aaaac4ee86724e66306909004ae3ff0b9
-generated: "2025-08-25T02:07:11.931182+02:00"
+digest: sha256:1c1ef016a0e0c011464488e82d75d070743338c93fc5b8310d78a1b8da3973e5
+generated: "2025-09-19T20:48:49.929353519Z"
